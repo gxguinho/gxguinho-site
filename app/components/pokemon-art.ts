@@ -6,8 +6,12 @@
 // sao as do proprio sprite — media entre elas devolvia tons lamacentos —, so
 // clareadas ate um piso de luminancia para nao sumirem no fundo do terminal.
 //
-// O gengar e a excecao: o rosto dele foi desenhado a mao. Conversao automatica
-// nao resolve olhos e dentes nesta escala, e o rosto e a identidade dele.
+// O gengar e a excecao, por ser a estrela do site: vai em 72x36 em vez de 56,
+// tem uma faixa de sombra a mais para dar volume em vez de mancha chapada, e o
+// rosto foi desenhado a mao sobre coordenadas lidas do sprite. Os olhos dele
+// sao assimetricos de proposito — a cabeca esta virada, o olho direito e maior
+// e mais alto, e o sorriso sobe para a direita. Desenhar simetrico erra o
+// personagem.
 //
 // Marcadores de cor no formato do proprio neofetch: ${c1} vale dali em diante,
 // ate o proximo marcador, inclusive atravessando linhas. Cada pokemon tem a
@@ -198,36 +202,44 @@ export const POKEMON = {
   },
   gengar: {
     dex: 94,
-    colors: ['#A97FD0', '#FFF6FF', '#FF5A5A'],
+    colors: ['#A97FD0', '#6B54A8', '#CDAAE4', '#FFF6FF', '#FF5A5A'],
     lines: [
-      '                                          ${c1}.-++.',
-      '                            --         .=sssss:',
-      '                          -sss      .=sssssss+.',
-      '   .-so--:     -s+.=s=. :sssss -ss=ssssssssss-',
-      '   .-ssssssss+-+ssssssssssssssssssssssssssss-',
-      '     .ssssssssssssssssssssssssssssssssssssss-',
-      '      .=sssssssssssssssssssssssssssssssssss-',
-      '        .ssssssssssssssssssssssssssssssssss-      :o=.',
-      '  - .-   .=sssssssssssssssssssssssssssssss+.  :-+ssss---',
-      ' ssssso-: .=sssssssssssssssssssssssssssssssssssssssssss-',
-      '  sssssssssssss${c3}@@@${c1}ssssssssssssssssssss${c3}@@@${c1}sssssssssssss-.',
-      '-sssssssssssss${c3}@@@@@@${c1}sssssssssssssss${c3}@@@@@@${c1}ssssssssssss.',
-      ' --sssssssssss${c3}@@@@@@@${c1}ssssssssssss${c3}@@@@@@@${c1}sssssssssss=.',
-      '   .-sssssssssss${c3}@@@@@@${c1}sssssssssss${c3}@@@@@@${c1}ssssssssss=.',
-      '     .=ssssssssssss${c3}@@@${c1}sssssssssss${c3}@@@${c1}ssssssssssss:',
-      '        .=ssssssssssssssssssssssssssssssssssssss:',
-      '         .=ss${c2}MM${c1}ssssssssssssssssssssssssss${c2}MM${c1}sssss:',
-      '          :sss${c2}MMMMMMMMMMMMMMMMMMMMMMMMMMMM${c1}ssssss:',
-      '           :ssss${c2}sMsMsMsMsMsMsMsMsMsMsMsMs${c1}sssssss=.',
-      '            :ssssss${c2}MMMMMMMMMMMMMMMMMM${c1}sssssssssssssss=.',
-      '             -ssssssssssssssssssssssssssssssssssssss=.',
-      '            .+ssssssssssssssssssssssssssssssssssss=.',
-      '            :sssssssssssssssssssssssssssssssss=-.',
-      '            .+ssssssssssssssssssssssssssssssss:',
-      '             .+ssssssss=.-------.-ssssssssssss:',
-      '             -ssssssss=.          .=sssssssss+.',
-      '              .----.                .ssssssss-',
-      '                                     .--=ss+-.',
+      '                                                      ${c2}.::o=.',
+      '                                                    -=+${c3}oo${c1}s${c2}d=',
+      '                                  .:dd=         .::d${c3}oooo${c1}ss${c2}d=',
+      '                                .:+${c1}ss${c2}d=  ......-o${c3}ooooo${c1}ss${c2}dd=.',
+      '     -+d+---.       dd=:.dd=:  :+${c1}ssss${c2}d=.-dd+=dd${c3}ooooo${c1}ssss${c2}dd-',
+      '     +${c1}ssss${c3}ooo${c2}++++-..d${c3}ooo${c2}od${c3}o${c1}ss${c2}++${c1}ssssss${c2}ddo${c1}ss${c2}dd${c3}ooooooo${c1}ssss${c2}dd:.',
+      '      :+${c1}ssss${c3}oooooooo${c2}d${c1}s${c3}oo${c1}s${c2}d${c1}ssssssssssssssssss${c3}oo${c1}s${c3}o${c1}sssss${c2}dddd.',
+      '       :+${c1}ssss${c3}ooooooo${c2}d${c1}sssssssssssssssssssssssss${c3}o${c1}sssss${c2}dddd+.',
+      '        .:d${c1}ssss${c3}o${c1}s${c3}ooo${c1}sss${c3}ooooo${c1}ss${c3}o${c1}ssssssssssssssssssss${c2}ddddd',
+      '           +d${c1}ssssss${c2}d${c3}oooooooo${c1}s${c3}o${c1}s${c3}o${c1}ssssssssssssssssss${c2}dddddd        .-d-.',
+      '           .=${c1}sss${c2}dd${c3}ooooooooooo${c1}ssssssssssssssssssss${c2}ddddd+:      ==+${c1}ss${c2}d:',
+      ' .=o::+=.    :d${c1}s${c2}d${c3}ooooooooooo${c1}sssssssssssssssssssss${c2}ddddddd:::=dd${c3}ooo${c1}ssss${c2}ddd',
+      ' =d${c3}oooooo${c2}++...:d${c1}sss${c3}oooooo${c1}sssssssssssss${c5}@@@@@@${c1}sss${c2}dddddddd${c1}sss${c3}oo${c1}s${c3}ooo${c2}d${c3}o${c2}d${c1}sss${c2}o.',
+      '  -d${c3}oooooo${c1}ss${c2}ddd${c1}sssssssssssssssssssss${c5}@@@@@@@@@${c1}ss${c2}dddddd${c1}sssssss${c3}oooooo${c2}d${c1}ss${c2}+-',
+      '.=o${c1}sssssss${c3}o${c1}ss${c2}dd${c1}ss${c2}d${c5}@@@@@@${c1}sssssss${c3}oooo${c5}@@@@@@@@@@${c1}sss${c2}ddddd${c1}ssss${c3}o${c1}sssss${c3}ooo${c1}s${c2}d-.',
+      '-+d${c1}sssssssss${c2}dd${c1}ss${c2}d${c5}@@@@@@@@@${c1}sssss${c3}ooo${c2}d${c5}@@@@@@@@@${c1}ss${c2}d${c1}ss${c2}dddd${c1}sssssssssssss${c2}d-.',
+      ' ...+${c1}sssss${c2}dddd${c1}ss${c2}d${c5}@@@@@@@@@${c1}sssss${c2}ddd${c1}s${c2}d${c5}@@@@@@${c1}sss${c2}d${c1}ssss${c2}ddddd${c1}ssssssss${c2}do=..',
+      '     :+ddddddd${c1}s${c2}d${c1}s${c2}dd${c5}@@@@@@@${c1}ssssssss${c2}d${c1}ss${c5}@@@${c1}ssss${c2}dd${c1}ssss${c2}ddddddddddddd=.',
+      '       :+ddddd${c1}s${c2}d${c1}sss${c2}d${c1}s${c5}@@@@${c1}sssssssssssssss${c2}dd${c1}sss${c2}d${c1}ssss${c2}dddddddddddd.',
+      '        .::+dd${c1}ss${c2}dd${c1}s${c2}d${c4}MM${c1}ssssssssssss${c2}ddddd${c1}sssss${c2}d${c4}MMMM${c1}s${c2}dddddddddddd.',
+      '            -d${c1}sss${c2}dd${c1}s${c2}d${c4}MMMMMMMMMMMMMMMMMMMMMMMMMM${c1}ss${c2}ddddddddddddd.',
+      '            .-d${c1}ssss${c2}dd${c4}MMMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMMMMM${c1}s${c2}ddddddddddddd.',
+      '             :d${c1}sssss${c2}d${c1}s${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMM${c2}d${c4}MMMM${c1}ss${c2}dddddddddddddd.',
+      '             ..d${c1}sssssss${c2}d${c4}MMMMMMMMMMMMMMMMMMMMM${c1}ss${c2}ddddddddddddddd:.',
+      '               -o${c1}ssssssssss${c4}MMMMMMMMMMMMMM${c1}sssss${c2}ddddddddddddddddd=---.',
+      '                =o${c1}sssssssssssssssssssssssssss${c2}ddddddddddddddddddddddd:',
+      '                 =dd${c1}sssssssssssssssssssssss${c2}dddddddddddddddddddddddd-.',
+      '                .+ddddd${c1}sssssssssssssssss${c2}ddddddddddddddddddddddddo=',
+      '                +dddddddddddddddddddddddddddd${c1}ssssssssssss${c2}ddddd-:.',
+      '                +ddddddddddddddddddddddddddd${c1}ssssssss${c3}ooo${c1}ss${c2}dd=',
+      '                .=d${c1}sss${c2}dddddddddddddddddddodd${c1}sssssss${c3}ooooo${c1}ss${c2}d=',
+      '                 :=${c1}ssssss${c2}ddddd-.:-------- :+${c1}sssssssss${c3}ooo${c1}ss${c2}d=',
+      '                 -o${c1}s${c2}d${c1}ssssss${c2}dd+             .:+${c1}ssssssssssss${c2}o-',
+      '                 .=dddddd---:                 -+${c1}ssssssss${c2}dd-',
+      '                                               -o${c1}sssss${c2}d${c1}ss${c2}d-',
+      '                                                .:::oddd::.',
     ],
   },
   eevee: {

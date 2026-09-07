@@ -45,14 +45,27 @@ const PARSED = Object.fromEntries(
  *  abas, paddings, as duas linhas de prompt e a dica. */
 const CHROME_PX = 210;
 const LINE_HEIGHT = 1.08;
+/** Largura de avanco de um caractere numa fonte monoespacada, em em. */
+const ADVANCE = 0.6;
+/** Folga lateral: os paddings da area de saida. */
+const GUTTER_PX = 48;
 
 export function PokemonArt({ name }: { name: PokemonName }) {
-  const rows = PARSED[name].length;
-  // Cada pokemon tem uma altura diferente (28 linhas o gengar, 36 o eevee),
-  // entao o corpo cabe na tela so se o tamanho sair da contagem de linhas.
-  const fontSize = `max(6px, min(calc((100dvh - ${CHROME_PX}px) / ${(
-    rows * LINE_HEIGHT
-  ).toFixed(2)}), 2.4vw, 20px))`;
+  const grid = PARSED[name];
+  const rows = grid.length;
+  const cols = Math.max(
+    ...grid.map((runs) => runs.reduce((n, run) => n + run.text.length, 0)),
+  );
+
+  // O tamanho sai das duas dimensoes da arte, nao de constantes: cada pokemon
+  // tem altura propria (28 linhas o gengar, 36 o eevee) e a largura tambem
+  // varia. Assim da para redesenhar um deles maior sem quebrar o layout.
+  const fontSize = [
+    "max(6px, min(",
+    `calc((100dvh - ${CHROME_PX}px) / ${(rows * LINE_HEIGHT).toFixed(2)}), `,
+    `calc((100vw - ${GUTTER_PX}px) / ${(cols * ADVANCE).toFixed(2)}), `,
+    "20px))",
+  ].join("");
 
   return (
     <pre
