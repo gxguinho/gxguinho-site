@@ -4,7 +4,7 @@
 .art {
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
-  font-size: clamp(6px, 1.9vw, 12px);
+  font-size: clamp(6px, min(2.5vh, 2.4vw), 20px);
   /* No terminal a celula e quase quadrada; o 1.5 padrao esticaria o desenho. */
   line-height: 1.08;
   letter-spacing: 0;
