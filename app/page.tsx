@@ -1,18 +1,6 @@
-import { Gengar } from "./components/gengar";
-
-function Prompt({ command }: { command?: string }) {
-  return (
-    <p>
-      <span className="text-[#da4b2e]">gxguinho@site</span>
-      <span className="text-white/40">:</span>
-      <span className="text-[#4e8fc4]">~</span>
-      <span className="text-white/40">$ </span>
-      {command ?? (
-        <span className="cursor-blink inline-block h-[1.05em] w-[0.55em] translate-y-[0.15em] bg-[#d6cec6]" />
-      )}
-    </p>
-  );
-}
+import { PokemonArt } from "./components/pokemon";
+import { PokemonTerminal } from "./components/pokemon-terminal";
+import { DEFAULT_POKEMON } from "./components/pokemon-art";
 
 export default function Home() {
   return (
@@ -28,14 +16,9 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Conteudo flui do topo a esquerda, como num terminal de verdade. */}
-      <div className="flex-1 overflow-auto p-4 font-mono text-[13px] leading-relaxed text-[#d6cec6]">
-        <Prompt command="gengar" />
-        <div className="py-3">
-          <Gengar />
-        </div>
-        <Prompt />
-      </div>
+      {/* A arte e renderizada no servidor e entregue ao componente cliente,
+          que a coloca dentro de um <noscript>. */}
+      <PokemonTerminal fallback={<PokemonArt name={DEFAULT_POKEMON} />} />
     </div>
   );
 }
