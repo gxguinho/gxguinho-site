@@ -1,45 +1,26 @@
-/* Arte em texto: cada pixel do sprite e um U+2588 colorido.
-
-   Duas regras carregam o desenho inteiro:
-
-   1. `line-height: 1ch` — `ch` e a largura de avanco do caractere, entao a celula
-      fica quadrada em qualquer fonte monoespacada, sem depender de metrica.
-
-   2. Toda celula e pintada, inclusive o vazio. O glifo de bloco e mais alto
-      (~1em) que o espacamento entre linhas (~0.6em), entao as linhas se
-      sobrepoem e cada uma cobre o transbordo da anterior. Se o vazio fosse um
-      espaco, a cor da linha de cima vazaria para baixo na borda do desenho.
-      Como consequencia, a arte precisa de um fundo solido conhecido. */
+/* Arte ASCII comum: caracteres normais num <pre>, coloridos por span.
+   Nao precisa de fonte especial — o desenho usa so . : - = + o s M @ */
 
 .art {
-  /* Precisa conter U+2588. Geist Mono (a fonte do projeto) nao tem blocos. */
-  font-family: Menlo, "DejaVu Sans Mono", Consolas, "Liberation Mono", ui-monospace,
-    monospace;
-  font-size: clamp(5px, 1.5vw, 9px);
-  line-height: 1ch;
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  font-size: clamp(6px, 1.9vw, 12px);
+  /* No terminal a celula e quase quadrada; o 1.5 padrao esticaria o desenho. */
+  line-height: 1.08;
   letter-spacing: 0;
   font-variant-ligatures: none;
   white-space: pre;
   margin: 0;
-  width: 58ch;
-  /* O primeiro glifo sobe acima da sua linha; a ultima desce um pouco. */
-  padding: 0.5ch 0;
-  color: var(--gengar-empty);
 }
 
-.empty {
-  color: var(--gengar-empty);
+.c1 {
+  color: #a97fd0;
 }
 
-.c0 { color: #101010; }
-.c1 { color: #4A294A; }
-.c2 { color: #5A4A9C; }
-.c3 { color: #6A627B; }
-.c4 { color: #7B62A4; }
-.c5 { color: #FF5A5A; }
-.c6 { color: #9473B4; }
-.c7 { color: #B48BBD; }
-.c8 { color: #FF9494; }
-.c9 { color: #BDACBD; }
-.c10 { color: #DED5DE; }
-.c11 { color: #FFF6FF; }
+.c2 {
+  color: #fff6ff;
+}
+
+.c3 {
+  color: #ff5a5a;
+}

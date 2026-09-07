@@ -1,11 +1,9 @@
 import { Gengar } from "./components/gengar";
 
-const TERMINAL_BG = "#1b1715";
-
 export default function Home() {
   return (
     <div className="flex flex-1 items-center justify-center bg-zinc-100 px-4 py-16 dark:bg-black">
-      <main className="w-full max-w-md">
+      <main className="w-full max-w-lg">
         <div className="overflow-hidden rounded-lg border border-white/10 shadow-2xl">
           <div className="flex items-center gap-2 border-b border-white/10 bg-[#292220] px-3 py-2.5">
             <span className="h-3 w-3 rounded-full bg-[#e05a47]" />
@@ -25,8 +23,8 @@ export default function Home() {
               gengar
             </p>
 
-            <div className="flex justify-center py-3">
-              <Gengar background={TERMINAL_BG} />
+            <div className="flex justify-center overflow-x-auto py-3">
+              <Gengar />
             </div>
 
             <p>

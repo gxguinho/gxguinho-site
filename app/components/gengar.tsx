@@ -1,42 +1,63 @@
-import { GENGAR } from "./gengar-art";
+import { GENGAR_ART } from "./gengar-art";
 import styles from "./gengar.module.css";
 
-const BLOCK = "█";
-
-type Props = {
-  /** Cor por tras do desenho. Precisa bater com o fundo em que ele e colocado. */
-  background?: string;
-  className?: string;
-};
+type Run = { color: string; text: string };
 
 /**
- * Gengar desenhado com caracteres, no espirito da arte que o neofetch imprime.
+ * Quebra as linhas nos marcadores ${c1}/${c2}/${c3}.
+ *
+ * A cor corrente atravessa linhas — e o mesmo comportamento dos codigos ANSI
+ * no terminal, onde a cor vale ate alguem trocar. Roda uma vez, na carga do
+ * modulo: a arte e estatica, entao nao ha o que recalcular por render.
+ */
+function parseArt(lines: readonly string[]): Run[][] {
+  const marker = /\$\{(c[123])\}/g;
+  let color = "c1";
+
+  return lines.map((line) => {
+    const runs: Run[] = [];
+    let last = 0;
+    let match: RegExpExecArray | null;
+
+    marker.lastIndex = 0;
+    while ((match = marker.exec(line)) !== null) {
+      if (match.index > last) {
+        runs.push({ color, text: line.slice(last, match.index) });
+      }
+      color = match[1];
+      last = match.index + match[0].length;
+    }
+    if (last < line.length) {
+      runs.push({ color, text: line.slice(last) });
+    }
+    return runs;
+  });
+}
+
+const ROWS = parseArt(GENGAR_ART);
+
+/**
+ * Gengar em arte ASCII, no estilo dos logos do neofetch.
  * Sem estado e sem efeito: roda como Server Component e nao manda JS ao cliente.
  */
-export function Gengar({ background = "transparent", className }: Props) {
+export function Gengar({ className }: { className?: string }) {
   return (
     <pre
       className={[styles.art, className].filter(Boolean).join(" ")}
-      style={{ ["--gengar-empty" as string]: background }}
       role="img"
-      aria-label="Gengar desenhado em arte ASCII com blocos coloridos"
+      aria-label="Gengar desenhado em arte ASCII"
     >
-      {GENGAR.rows.map((row, y) => {
-        const spans = [];
-        for (let i = 0; i < row.length; i += 2) {
-          const color = row[i];
-          const count = row[i + 1];
-          spans.push(
-            <span
-              key={i}
-              className={color === -1 ? styles.empty : styles[`c${color}`]}
-            >
-              {BLOCK.repeat(count)}
-            </span>,
-          );
-        }
-        return <div key={y}>{spans}</div>;
-      })}
+      {ROWS.map((runs, y) => (
+        <div key={y}>
+          {runs.length === 0
+            ? " "
+            : runs.map((run, i) => (
+                <span key={i} className={styles[run.color]}>
+                  {run.text}
+                </span>
+              ))}
+        </div>
+      ))}
     </pre>
   );
 }
